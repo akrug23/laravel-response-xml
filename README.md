@@ -1,5 +1,6 @@
 # Laravel Response XML
-Add the  method "xml" integrating the laravel's response, converting eloquent return to XML.
+
+Add the method "xml" integrating the laravel's response, converting eloquent return to XML.
 
 [![Total Downloads](https://poser.pugx.org/jailtonsc/laravel-response-xml/d/total.svg)](https://packagist.org/packages/jailtonsc/laravel-response-xml)
 [![Latest Stable Version](https://poser.pugx.org/jailtonsc/laravel-response-xml/v/stable.svg)](https://packagist.org/packages/jailtonsc/laravel-response-xml)
@@ -8,10 +9,10 @@ Add the  method "xml" integrating the laravel's response, converting eloquent re
 ### Composer Installation
 
 ```php
-composer require jailtonsc/laravel-response-xml
+composer require akrug/laravel-response-xml
 ```
 
-### Integration with Laravel 5.*
+### Integration with Laravel 5.\*
 
 Add in config/app.php in place providers
 
@@ -32,6 +33,7 @@ php artisan vendor:publish
 ```
 
 ### Example
+
 ```php
 Route::get('/', function () {
     return response()->xml(User::all());
@@ -51,6 +53,7 @@ Setting by code
 ```php
 $config = [
         'template' => '<test></test>',
+        'nodeName' => 'node',
         'rowName' => 'name'
     ];
 
@@ -80,7 +83,6 @@ $xml = Xml::asXml(User::all(), $config);
 
 file config/xml.php
 
-
 **template**: xml template.
 
 **caseSensitive**: case sensitive xml tag.
@@ -89,8 +91,9 @@ file config/xml.php
 
 **charset**: encoding.
 
-**rowName**: line name if it is an array.
+**nodeName**: node name default is class name.
 
+**rowName**: line name if it is an array.
 
 ### License
 

@@ -36,6 +36,11 @@ class XmlResponse
     /**
      * @var
      */
+    private $nodeName;
+
+    /**
+     * @var
+     */
     private $rowName;
 
     /**
@@ -54,6 +59,7 @@ class XmlResponse
         $this->template = $app->get('xml.template');
         $this->showEmptyField = $app->get('xml.showEmptyField');
         $this->charset = $app->get('xml.charset');
+        $this->nodeName = $app->get('xml.nodeName');
         $this->rowName = $app->get('xml.rowName');
     }
 
@@ -147,6 +153,7 @@ class XmlResponse
             'caseSensitive',
             'showEmptyField',
             'charset',
+            'nodeName',
             'rowName'
         ]);
     }
@@ -199,7 +206,11 @@ class XmlResponse
                     $this->array2xml($value, $xml->addChild($this->caseSensitive($key)));
                 }
             } elseif (is_object($value)) {
-                $this->array2xml($value, $xml->addChild($this->caseSensitive((new \ReflectionClass(get_class($value)))->getShortName())));
+                if (!empty($this->nodeName)) {
+                    $this->array2xml($value, $xml->addChild($this->caseSensitive($this->nodeName)));
+                } else {
+                    $this->array2xml($value, $xml->addChild($this->caseSensitive((new \ReflectionClass(get_class($value)))->getShortName())));
+                }
             } else {
                 if (!is_null($value) || $this->showEmptyField) {
                     if (is_numeric($key)) {
