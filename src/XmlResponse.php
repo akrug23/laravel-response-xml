@@ -46,6 +46,11 @@ class XmlResponse
     /**
      * @var boolean
      */
+    private $asAttribute = false;
+
+    /**
+     * @var boolean
+     */
     private $asXml = false;
 
     /**
@@ -61,6 +66,7 @@ class XmlResponse
         $this->charset = $app->get('xml.charset');
         $this->nodeName = $app->get('xml.nodeName');
         $this->rowName = $app->get('xml.rowName');
+        $this->asAtrributes = $app->get('xml.asAttributes');
     }
 
     /**
@@ -154,7 +160,8 @@ class XmlResponse
             'showEmptyField',
             'charset',
             'nodeName',
-            'rowName'
+            'rowName',
+            'asAttributes'
         ]);
     }
 
@@ -213,10 +220,18 @@ class XmlResponse
                 }
             } else {
                 if (!is_null($value) || $this->showEmptyField) {
-                    if (is_numeric($key)) {
-                        $xml->addChild($this->caseSensitive($this->rowName($key)), htmlspecialchars($value));
+                    if ($this->asAttributes) {
+                        if (is_numeric($key)) {
+                            $xml->addAttribute($this->caseSensitive($this->rowName($key)), htmlspecialchars($value));
+                        } else {
+                            $xml->addAttribute($this->caseSensitive($key), htmlspecialchars($value));
+                        }
                     } else {
-                        $xml->addChild($this->caseSensitive($key), htmlspecialchars($value));
+                        if (is_numeric($key)) {
+                            $xml->addChild($this->caseSensitive($this->rowName($key)), htmlspecialchars($value));
+                        } else {
+                            $xml->addChild($this->caseSensitive($key), htmlspecialchars($value));
+                        }
                     }
                 }
             }
