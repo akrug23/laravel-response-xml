@@ -17,6 +17,13 @@ return [
     'charset' => 'utf-8',
 
     /**
+     * Name of node
+     * 
+     * default is class name
+     */
+    'nodeName' => null,
+
+    /**
      * line name if it is an array
      * 
      * example
